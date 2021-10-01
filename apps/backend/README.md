@@ -10,7 +10,8 @@
 
 #### run mongo image
 
-`mongodb run docker run --name mongodb -p 27017:27017 mongo`
+`docker run -d --name <mongo-container-name> -p 27017:27017 mongo`
+`docker run -d --name mongo-chat -p 27017:27017 mongo`
 
 #### Start mongodb shell
 
