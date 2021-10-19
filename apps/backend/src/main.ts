@@ -4,7 +4,7 @@ import * as helmet from 'helmet';
 import { infoLogger } from './logger';
 import { authRouter } from './app/auth/auth.routes';
 
-const main = async (): Promise<void> => {
+export const createApp = async () => {
   const app: express.Application = express();
 
   app.use(
@@ -27,7 +27,13 @@ const main = async (): Promise<void> => {
   app.use('/auth', await authRouter());
   app.use('/', (req, res) => res.send('Helloworld'));
 
-  const port = process.env.BACK_PORT || 3100;
+  return app;
+};
+
+const main = async (): Promise<void> => {
+  const app = await createApp();
+  const port =
+    process.env.NODE_ENV === 'test' ? 3349 : process.env.BACK_PORT || 3100;
   app.listen(port, () => {
     infoLogger(`App listening on port ${port}!`);
   });

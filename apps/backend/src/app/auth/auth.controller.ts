@@ -23,7 +23,6 @@ export const authController = async (): Promise<AuthControllerReturnType> => {
         const existingUserByEmail = await service.getUserByEmail(
           req.body.email
         );
-        console.log(existingUserByEmail);
 
         if (existingUserByEmail) {
           const boomed = badRequest('auth/already-exist');

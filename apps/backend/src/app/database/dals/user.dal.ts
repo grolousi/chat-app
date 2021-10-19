@@ -1,4 +1,4 @@
-import { Db, InsertOneResult, UpdateResult, ObjectId } from 'mongodb';
+import { InsertOneResult, UpdateResult, ObjectId } from 'mongodb';
 import { UserType } from '../../types/user.types';
 import { dbConnector } from '../db.connector';
 
@@ -12,8 +12,9 @@ interface UserDalReturnType {
 }
 
 export const userDal = async (): Promise<UserDalReturnType> => {
-  const db: Db = await dbConnector.getDb(COLLECTION);
-  const collection = db.collection(COLLECTION);
+  const collection = await dbConnector.getCollection<Partial<UserType>>(
+    COLLECTION
+  );
 
   return {
     getUserByEmail: async (email) => {
