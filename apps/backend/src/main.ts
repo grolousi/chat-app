@@ -1,8 +1,12 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import * as helmet from 'helmet';
+import * as http from 'http';
+import { Server, Socket } from 'socket.io';
 import { infoLogger } from './logger';
 import { authRouter } from './app/auth/auth.routes';
+
+export let io;
 
 export const createApp = async () => {
   const app: express.Application = express();
@@ -34,7 +38,12 @@ const main = async (): Promise<void> => {
   const app = await createApp();
   const port =
     process.env.NODE_ENV === 'test' ? 3349 : process.env.BACK_PORT || 3100;
-  app.listen(port, () => {
+
+  const server = new http.Server(app);
+
+  io = new Server(server);
+
+  server.listen(port, () => {
     infoLogger(`App listening on port ${port}!`);
   });
 };
